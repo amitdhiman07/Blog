@@ -13,7 +13,7 @@ async function DbConfiguration() {
     try {
         await DBConnectionChecker();
         console.log('Database connection is established');
-        
+
         await SchemaCreation();
         console.log('Schema created successfully');
 
@@ -22,6 +22,7 @@ async function DbConfiguration() {
 
         await sequelize.sync({alter:true});
         console.log('Database models are synchronized');
+        
     } catch (error) {
         console.error('Database configuration failed:', error);
     }

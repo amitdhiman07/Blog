@@ -4,12 +4,20 @@ const app = express();
 
 // Importing files
 const {DBConnectionChecker} = require('./config/dbConnection');
-const DbConfiguration = require('./script/syncDB')
+const DbConfiguration = require('./script/syncDB');
+
+//import routes file 
+const routes = require('./routes/route');
 
 // loads the environmental variable values 
 require('dotenv').config();
 const PORT = process.env.SERVER_PORT;
 
+// Middleware
+app.use(express.json());
+
+// Routing
+app.use('/api' , routes );
 
 // Creates the server
 app.listen(PORT , async () => {
