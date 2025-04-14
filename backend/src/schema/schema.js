@@ -2,7 +2,7 @@
 const {sequelize} = require('../config/dbConnection')
 
 
-// Create schema
+// Create schema // it should be generic like function should take the parameter and then it should create the schema.
 async function SchemaCreation() {
     try {
         await sequelize.createSchema('auth');
