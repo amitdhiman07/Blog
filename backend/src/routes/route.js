@@ -38,6 +38,60 @@ router.post('/login' , [
 });
 
 
+// Post Method for the user details
+router.post('/userDetails' , [
+    body('name').notEmpty().withMessage('Invalid name or must not be empty'),
+    body('email').isEmail().withMessage('Invalid email'),
+    body('password').isLength({min:6}).withMessage('Invalid password length')
+] , async (req , res) => {
+    try {
+        const errors = validationResult(req);
+        if(!errors.isEmpty()){
+            return res.status(400).json({errors : errors.array()});
+        }else{
+            const {name , email , password } = req.body;
+            if(name && email && password){
+                const userDetailsData = await UserDetails.create({name , email , password});
+                return res.status(201).json(userDetailsData);
+                console.log('Inserted data into the user details table  during sign up process ');
+            }else{
+                return res.status(400).json({message : 'Invalid name , email or password '});
+            }
+        }
+    } catch (error) {
+        console.error("Failed to insert the data into the user details table during sign up process ", error);
+    }
+
+});
+
+
+// Post method for the BlogPost table 
+router.post('/post' , [
+    body('post').notEmpty().withMessage('post should not be empty')
+] , async (req , res) => {
+    try {
+        const errors = validationResult(req);
+        if(!errors.isEmpty()){
+            return res.status(400).json({errors : errors.array()});
+        }else{
+            const {post} = req.body;
+            if(post){
+                const blogPostData = await BlogPost.create({post});
+                return res.status(201).json(blogPostData);
+                console.log('Inserted data into the blog post table ');
+            }else{
+                return res.status(400).json({message : 'Empty or Invalid data'});
+            }
+        }
+    } catch (error) {
+        console.error("Failed to insert the data into the blog table  ", error);
+    }
+});
+
+
+
+
+
 // // Post Method
 // router.post('/post', [
 //     body('username').notEmpty().withMessage('Username must not be empty'),
